@@ -3,19 +3,19 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:ganbooks/models/book.dart';
 import 'package:ganbooks/models/book_detail.dart';
+import 'package:ganbooks/services/http.dart';
 
 class BooksRepository {
-  BooksRepository(this._dio);
-  final Dio _dio;
+  BooksRepository();
+  // final Dio _dio;
 
   Future<List<Book>> fetchNewBooks() async {
     try {
-      final response = await _dio.get<Map<String, dynamic>>('new');
+      final response = await dio.get<Map<String, dynamic>>('new');
       final books = <Book>[];
-      final booksResponse =
-          response.data?['books'] as List<Map<String, dynamic>>;
+      final booksResponse = response.data?['books'] as List;
       for (final json in booksResponse) {
-        books.add(Book.fromJson(json));
+        books.add(Book.fromJson(json as Map<String, dynamic>));
       }
       return books;
     } on DioException {
@@ -26,7 +26,7 @@ class BooksRepository {
 
   Future<List<Book>> searchBooks(String query) async {
     try {
-      final response = await _dio.get<Map<String, dynamic>>('search/$query');
+      final response = await dio.get<Map<String, dynamic>>('search/$query');
       final books = <Book>[];
       final booksResponse =
           response.data?['books'] as List<Map<String, dynamic>>;
@@ -42,7 +42,7 @@ class BooksRepository {
 
   Future<BookDetail> getBookDetails(String isbn) async {
     try {
-      final response = await _dio.get<Map<String, dynamic>>('books/$isbn');
+      final response = await dio.get<Map<String, dynamic>>('books/$isbn');
       return BookDetail.fromJson(response.data ?? {});
     } on DioException {
       log('Error fetching book details');

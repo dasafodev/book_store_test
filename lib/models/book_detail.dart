@@ -1,7 +1,7 @@
 import 'package:ganbooks/models/book.dart';
 
 class BookDetail extends Book {
-  BookDetail({
+  const BookDetail({
     required super.title,
     required this.error,
     required super.subtitle,
@@ -61,4 +61,22 @@ class BookDetail extends Book {
         'image': image,
         'url': url,
       };
+
+  @override
+  List<Object?> get props => [
+        error,
+        title,
+        subtitle,
+        authors,
+        publisher,
+        isbn10,
+        isbn13,
+        pages,
+        year,
+        rating,
+        desc,
+        price,
+        image,
+        url,
+      ];
 }
