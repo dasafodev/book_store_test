@@ -28,10 +28,9 @@ class BooksRepository {
     try {
       final response = await dio.get<Map<String, dynamic>>('search/$query');
       final books = <Book>[];
-      final booksResponse =
-          response.data?['books'] as List<Map<String, dynamic>>;
+      final booksResponse = response.data?['books'] as List;
       for (final json in booksResponse) {
-        books.add(Book.fromJson(json));
+        books.add(Book.fromJson(json as Map<String, dynamic>));
       }
       return books;
     } on DioException {

@@ -19,22 +19,33 @@ class BooksView extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: SizedBox(
                 height: 50,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(8),
-                    hintText: 'Search books',
-                    filled: true,
-                    fillColor: Color(0xFF3F3F3F),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+                child: Builder(
+                  builder: (context) {
+                    return TextField(
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(8),
+                        hintText: 'Search books',
+                        filled: true,
+                        fillColor: Color(0xFF3F3F3F),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        suffixIcon: Icon(Icons.search),
                       ),
-                    ),
-                    suffixIcon: Icon(Icons.search),
-                  ),
-                  onSubmitted: (query) {
-                    context.read<BooksCubit>().searchBooks(query);
+                      onChanged: (query) {
+                        if (query.isEmpty) {
+                          context.read<BooksCubit>().fetchNewBooks();
+                        } else {
+                          context.read<BooksCubit>().searchBooks(query);
+                        }
+                      },
+                      onSubmitted: (query) {
+                        context.read<BooksCubit>().searchBooks(query);
+                      },
+                    );
                   },
                 ),
               ),
