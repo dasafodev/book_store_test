@@ -35,16 +35,7 @@ class BooksView extends StatelessWidget {
                         ),
                         suffixIcon: Icon(Icons.search),
                       ),
-                      onChanged: (query) {
-                        if (query.isEmpty) {
-                          context.read<BooksCubit>().fetchNewBooks();
-                        } else {
-                          context.read<BooksCubit>().searchBooks(query);
-                        }
-                      },
-                      onSubmitted: (query) {
-                        context.read<BooksCubit>().searchBooks(query);
-                      },
+                      onChanged: context.read<BooksCubit>().searchBooks,
                     );
                   },
                 ),

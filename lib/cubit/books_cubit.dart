@@ -17,14 +17,19 @@ class BooksCubit extends Cubit<BooksState> {
   Future<void> fetchNewBooks() async {
     emit(state.copyWith(loading: true));
     final books = await _repository.fetchNewBooks();
-    emit(state.copyWith(books: books, loading: false));
+    emit(state.copyWith(books: books, loading: false, newBooks: books));
   }
 
   Future<void> searchBooks(String query) async {
     emit(state.copyWith(loading: true));
-    _debounce.run(() async {
-      final books = await _repository.searchBooks(query);
-      emit(state.copyWith(books: books, loading: false));
-    });
+    final queryTrim = query.trim();
+    if (queryTrim.isEmpty || queryTrim.length < 3) {
+      emit(state.copyWith(books: state.newBooks, loading: false));
+    } else {
+      _debounce.run(() async {
+        final books = await _repository.searchBooks(query);
+        emit(state.copyWith(books: books, loading: false));
+      });
+    }
   }
 }

@@ -6,9 +6,6 @@ import 'package:ganbooks/models/book_detail.dart';
 import 'package:ganbooks/services/http.dart';
 
 class BooksRepository {
-  BooksRepository();
-  // final Dio _dio;
-
   Future<List<Book>> fetchNewBooks() async {
     try {
       final response = await dio.get<Map<String, dynamic>>('new');

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ganbooks/models/book.dart';
 
 class BookDetail extends Book {
@@ -28,21 +30,22 @@ class BookDetail extends Book {
         isbn13: json['isbn13'].toString(),
         pages: json['pages'].toString(),
         year: json['year'].toString(),
-        rating: json['rating'].toString(),
-        desc: json['desc'].toString(),
+        rating: int.tryParse(json['rating'].toString()) ?? 0,
+        desc: utf8.decode(json['desc'].toString().codeUnits),
         price: json['price'].toString(),
         image: json['image'].toString(),
         url: json['url'].toString(),
       );
   final String error;
-
   final String authors;
   final String publisher;
   final String isbn10;
   final String pages;
   final String year;
-  final String rating;
+  final int rating;
   final String desc;
+
+  // List<int> get allStars => List.generate(5, (index) => index < rating ? 1 : 0);
 
   @override
   Map<String, dynamic> toJson() => {

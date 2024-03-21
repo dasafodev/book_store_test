@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 class Book extends Equatable {
@@ -11,8 +13,8 @@ class Book extends Equatable {
   });
 
   factory Book.fromJson(Map<String, dynamic> json) => Book(
-        title: json['title'].toString(),
-        subtitle: json['subtitle'].toString(),
+        title: utf8.decode(json['title'].toString().codeUnits),
+        subtitle: utf8.decode(json['subtitle'].toString().codeUnits),
         isbn13: json['isbn13'].toString(),
         price: json['price'].toString(),
         image: json['image'].toString(),
